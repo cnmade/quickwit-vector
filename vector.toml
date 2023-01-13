@@ -1,0 +1,23 @@
+[sources.applog]
+type = "file"
+ignore_older_secs = 600
+include = [ "/opt/logs/**/*.json" ]
+read_from = "beginning"
+[transforms.applog_parser]
+inputs = ["applog"]
+type   = "remap"
+source = '''
+. = parse_json!(.message)
+'''
+
+[sinks.out]
+inputs = ["applog_parser"]
+type = "console"
+encoding.codec = "json"
+
+[sinks.quickwit_logs]
+type = "http"
+inputs = ["applog_parser"]
+encoding.codec = "json"
+framing.method = "newline_delimited"
+uri = "http://quickwit:7280/api/v1/applog/ingest"

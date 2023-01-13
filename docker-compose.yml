@@ -1,0 +1,17 @@
+services:
+  quickwit:
+    image: quickwit/quickwit
+    ports:
+      - 17280:7280
+    volumes:
+      - ./quickwit-data:/quickwit/qwdata
+      - ./index-config.yml:/quickwit/index-config.yml
+    command: run 
+  vector:
+    image:  timberio/vector:0.25.0-distroless-libc
+    ports: 
+      - 8383:8383
+    volumes:
+      - ./vector.toml:/etc/vector/vector.toml
+      - /Users/nomore/logs:/opt/logs
+  

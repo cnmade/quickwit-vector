@@ -1,0 +1,5 @@
+version: 0.4
+index_id: applog
+# note we did not map anything.
+doc_mapping:
+  mode: dynamic
